@@ -32,3 +32,10 @@ Route::post('/calculate', function (Request $request, Calculator $calculator) {
     return response()->json(['result' => $result]);
 });
 
+Route::get('/users', [UserController::class, 'index']);
+
+Route::middleware('auth:sanctum')->group(function () {
+    Route::get('/users/{id}', [UserController::class, 'show']);
+    Route::put('/users/{id}', [UserController::class, 'update']);
+    Route::delete('/users/{id}', [UserController::class, 'destroy']);
+});
