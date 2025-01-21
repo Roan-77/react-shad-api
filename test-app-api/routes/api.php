@@ -14,6 +14,13 @@ Route::post('/login', [LoginController::class, 'login']);
 
 Route::get('/user-info', [UserController::class, 'getUserInfo'])->middleware('auth:sanctum');
 
+Route::get('/users', [UserController::class, 'index']);
+
+Route::middleware('auth:sanctum')->group(function () {
+    Route::get('/users/{id}', [UserController::class, 'show']);
+    Route::put('/users/{id}', [UserController::class, 'update']);
+    Route::delete('/users/{id}', [UserController::class, 'destroy']);
+});
 
 
 Route::post('/calculate', function (Request $request, Calculator $calculator) {
@@ -30,12 +37,4 @@ Route::post('/calculate', function (Request $request, Calculator $calculator) {
     $result = $calculator->calculate($number1, $number2, $operator);
 
     return response()->json(['result' => $result]);
-});
-
-Route::get('/users', [UserController::class, 'index']);
-
-Route::middleware('auth:sanctum')->group(function () {
-    Route::get('/users/{id}', [UserController::class, 'show']);
-    Route::put('/users/{id}', [UserController::class, 'update']);
-    Route::delete('/users/{id}', [UserController::class, 'destroy']);
 });
